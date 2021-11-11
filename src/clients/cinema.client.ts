@@ -5,12 +5,13 @@ interface Response {
   content?: any;
 }
 
-interface Return<T> {
-  error?: T;
-  content?: any;
+interface Return<E, C> {
+  error?: E;
+  content?: C;
 }
 
 type RegisterErrors = "USER_EXISTS";
+type LoginErrors = "INVALID_CREDENTIALS";
 
 export class CinemaClient {
   private instance: axios.AxiosInstance;
@@ -22,19 +23,41 @@ export class CinemaClient {
     });
   }
 
-  async login(input: { Username: string; Password: string }) {
-    const res = await this.instance.post("Authenticate/register", input);
+  async login(input: {
+    Username: string;
+    Password: string;
+  }): Promise<Return<LoginErrors, { token: string; expiration: string }>> {
+    try {
+      const res = await this.instance.post("Authenticate/login", input);
 
-    console.log(res);
+      return {
+        content: {
+          token: res.data.token,
+          expiration: res.data.expiration,
+        },
+      };
+    } catch (e) {
+      const error = e as axios.AxiosError<Response>;
+
+      console.log(error);
+      console.log(error.response);
+
+      if (error.response?.data?.error === "INVALID_CREDENTIALS") {
+        return { error: "INVALID_CREDENTIALS" };
+      }
+
+      throw error;
+    }
   }
 
   async register(input: {
     Username: string;
     Email: string;
     Password: string;
-  }): Promise<Return<RegisterErrors>> {
+  }): Promise<Return<RegisterErrors, undefined>> {
     try {
       await this.instance.post("Authenticate/register", input);
+      return {};
     } catch (e) {
       const error = e as axios.AxiosError<Response>;
 
@@ -47,7 +70,5 @@ export class CinemaClient {
 
       throw error;
     }
-
-    return {};
   }
 }
