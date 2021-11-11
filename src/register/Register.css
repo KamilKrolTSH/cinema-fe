@@ -1,0 +1,9 @@
+.Register {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.input {
+  padding-top: 200px;
+}
