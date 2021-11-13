@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { CinemaClient } from "../clients/cinema.client";
 import { Showtime } from "../types/showtime";
+import { Link } from "react-router-dom";
 
 const cinemaClient = new CinemaClient();
 
@@ -20,7 +21,7 @@ export function Dashboard() {
 
   const loadShowtimes = async () => {
     const res = await cinemaClient.getShowtimes();
-    setShowtimes(res);
+    setShowtimes(res.content!);
   };
 
   return (
@@ -38,7 +39,11 @@ export function Dashboard() {
           <TableBody>
             {showtimes.map((showtime) => (
               <TableRow key={showtime.film.title}>
-                <TableCell>{showtime.film.title}</TableCell>
+                <TableCell>
+                  <Link className="link" to={`/showtime/${showtime.id}`}>
+                    {showtime.film.title}
+                  </Link>
+                </TableCell>
                 <TableCell>{showtime.date}</TableCell>
                 <TableCell>{showtime.room.number}</TableCell>
                 <TableCell>{showtime.film.runtime}</TableCell>

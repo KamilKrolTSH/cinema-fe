@@ -22,6 +22,20 @@ export class CinemaClient {
       baseURL: "http://localhost:5000/api",
       timeout: 3000,
     });
+
+    this.setAuthInterceptor();
+  }
+
+  private setAuthInterceptor() {
+    this.instance.interceptors.request.use(function (config) {
+      const authentication = localStorage.getItem("authentication");
+
+      if (authentication && authentication.length > 0) {
+        config.headers!.Authorization = `Bearer ${authentication}`;
+      }
+
+      return config;
+    });
   }
 
   async login(input: {
@@ -73,9 +87,45 @@ export class CinemaClient {
     }
   }
 
-  async getShowtimes(): Promise<Showtime[]> {
+  async getShowtimes(): Promise<Return<undefined, Showtime[]>> {
     const res = await this.instance.get("Showtimes");
 
     return res.data;
+  }
+
+  async getShowtime(id: string): Promise<Return<undefined, Showtime>> {
+    const res = await this.instance.get(`Showtimes/${id}`);
+
+    return res.data;
+  }
+
+  async lockASeat({
+    showtimeId,
+    seat,
+  }: {
+    showtimeId: number;
+    seat: number;
+  }): Promise<any> {
+    const res = await this.instance.post(`Bookings/`, {
+      ShowtimeId: showtimeId,
+      Seat: seat,
+    });
+
+    console.log(res);
+  }
+
+  async confirmLock({
+    showtimeId,
+    seat,
+  }: {
+    showtimeId: number;
+    seat: number;
+  }) {
+    const res = await this.instance.post(`Bookings/confirm`, {
+      ShowtimeId: showtimeId,
+      Seat: seat,
+    });
+
+    console.log(res);
   }
 }

@@ -9,6 +9,7 @@ import { Dashboard } from "./dashboard/Dashboard";
 import { PrivateRoute } from "./private-route/PrivateRoute";
 import { Logout } from "./logout/Logout";
 import { NoAuthRoute } from "./no-auth-route/NoAuthRoute";
+import { Showtime } from "./showtime/Showtime";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
             </NoAuthRoute>
             <PrivateRoute path="/dashboard">
               <Dashboard />
+            </PrivateRoute>
+            <PrivateRoute path="/showtime/:id">
+              <Showtime />
             </PrivateRoute>
             <NoAuthRoute path="/">
               <Home />

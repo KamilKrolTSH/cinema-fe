@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const AuthenticateContext = React.createContext<undefined | string>(undefined);
 const UpdateAuthenticateContext = React.createContext(undefined as any);
@@ -12,7 +12,13 @@ export function useUpdateAuthentication() {
 }
 
 export function AuthenticateProvider({ children }: { children: any }) {
-  const [authenticateContext, setAuthenticateContext] = useState(undefined);
+  const [authenticateContext, setAuthenticateContext] = useState<
+    string | undefined
+  >(undefined);
+
+  useEffect(() => {
+    localStorage.setItem("authentication", authenticateContext || "");
+  }, [authenticateContext]);
 
   return (
     <AuthenticateContext.Provider value={authenticateContext}>

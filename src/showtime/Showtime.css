@@ -1,0 +1,34 @@
+.Showtime {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Picker {
+  background-color: #372485;
+  width: 50px;
+  flex: 1 0 21%;
+  margin: 5px;
+  height: 100px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.disabled {
+  background-color: grey;
+}
+
+.Seet {
+}
+
+.Typog {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* .MuiButton-root {
+  border-radius: 8px;
+} */
