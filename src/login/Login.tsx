@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { CinemaClient } from "../clients/cinema.client";
 import "./Login.css";
 
+import {
+  useAuthentication,
+  useUpdateAuthentication,
+} from "../providers/AuthenticateProvider";
+
 const cinemaClinet = new CinemaClient();
 
 const minLength = 4;
@@ -11,6 +16,9 @@ const maxLength = 10;
 
 export function Login() {
   const history = useHistory();
+
+  const authentication = useAuthentication();
+  const updateAuthentication = useUpdateAuthentication();
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -52,8 +60,8 @@ export function Login() {
     if (res.error === "INVALID_CREDENTIALS") {
       setSnackbarOpen(true);
     } else {
-      // todo
-      // history.push("/login");
+      updateAuthentication(res.content!.token);
+      history.push("/dashboard");
     }
   };
 
