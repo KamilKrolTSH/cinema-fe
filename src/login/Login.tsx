@@ -1,13 +1,9 @@
-import { useHistory } from "react-router-dom";
 import { Alert, Button, Snackbar, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CinemaClient } from "../clients/cinema.client";
 import "./Login.css";
 
-import {
-  useAuthentication,
-  useUpdateAuthentication,
-} from "../providers/AuthenticateProvider";
+import { useUpdateAuthentication } from "../providers/AuthenticateProvider";
 
 const cinemaClinet = new CinemaClient();
 
@@ -15,9 +11,6 @@ const minLength = 4;
 const maxLength = 10;
 
 export function Login() {
-  const history = useHistory();
-
-  const authentication = useAuthentication();
   const updateAuthentication = useUpdateAuthentication();
 
   const [name, setName] = useState("");
@@ -61,7 +54,6 @@ export function Login() {
       setSnackbarOpen(true);
     } else {
       updateAuthentication(res.content!.token);
-      history.push("/dashboard");
     }
   };
 

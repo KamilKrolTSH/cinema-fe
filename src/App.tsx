@@ -8,6 +8,7 @@ import { AuthenticateProvider } from "./providers/AuthenticateProvider";
 import { Dashboard } from "./dashboard/Dashboard";
 import { PrivateRoute } from "./private-route/PrivateRoute";
 import { Logout } from "./logout/Logout";
+import { NoAuthRoute } from "./no-auth-route/NoAuthRoute";
 
 function App() {
   return (
@@ -16,18 +17,18 @@ function App() {
         <div className="App">
           <Logout />
           <Switch>
-            <Route path="/login">
+            <NoAuthRoute path="/login">
               <Login />
-            </Route>
-            <Route path="/register">
+            </NoAuthRoute>
+            <NoAuthRoute path="/register">
               <Register />
-            </Route>
+            </NoAuthRoute>
             <PrivateRoute path="/dashboard">
               <Dashboard />
             </PrivateRoute>
-            <Route path="/">
+            <NoAuthRoute path="/">
               <Home />
-            </Route>
+            </NoAuthRoute>
           </Switch>
         </div>
       </Router>

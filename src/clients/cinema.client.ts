@@ -1,4 +1,5 @@
 import * as axios from "axios";
+import { Showtime } from "../types/showtime";
 
 interface Response {
   error?: string;
@@ -70,5 +71,11 @@ export class CinemaClient {
 
       throw error;
     }
+  }
+
+  async getShowtimes(): Promise<Showtime[]> {
+    const res = await this.instance.get("Showtimes");
+
+    return res.data;
   }
 }
