@@ -1,4 +1,6 @@
 import * as axios from "axios";
+import { Film } from "../types/film";
+import { Room } from "../types/room";
 import { Showtime } from "../types/showtime";
 
 interface Response {
@@ -87,6 +89,28 @@ export class CinemaClient {
     }
   }
 
+  async registerAdmin(input: {
+    Username: string;
+    Email: string;
+    Password: string;
+  }): Promise<Return<RegisterErrors, undefined>> {
+    try {
+      await this.instance.post("Authenticate/register-admin", input);
+      return {};
+    } catch (e) {
+      const error = e as axios.AxiosError<Response>;
+
+      console.log(error);
+      console.log(error.response);
+
+      if (error.response?.data?.error === "USER_EXISTS") {
+        return { error: "USER_EXISTS" };
+      }
+
+      throw error;
+    }
+  }
+
   async getShowtimes(): Promise<Return<undefined, Showtime[]>> {
     const res = await this.instance.get("Showtimes");
 
@@ -106,12 +130,10 @@ export class CinemaClient {
     showtimeId: number;
     seat: number;
   }): Promise<any> {
-    const res = await this.instance.post(`Bookings/`, {
+    await this.instance.post(`Bookings/`, {
       ShowtimeId: showtimeId,
       Seat: seat,
     });
-
-    console.log(res);
   }
 
   async confirmLock({
@@ -121,11 +143,48 @@ export class CinemaClient {
     showtimeId: number;
     seat: number;
   }) {
-    const res = await this.instance.post(`Bookings/confirm`, {
+    await this.instance.post(`Bookings/confirm`, {
       ShowtimeId: showtimeId,
       Seat: seat,
     });
+  }
 
-    console.log(res);
+  async getFilms(): Promise<Return<undefined, Film[]>> {
+    const res = await this.instance.get("Films");
+
+    return res.data;
+  }
+
+  async getFilm(id: string): Promise<Return<undefined, Film>> {
+    const res = await this.instance.get(`Film/${id}`);
+
+    return res.data;
+  }
+
+  async createFilm(input: { Title: string; Runtime: number }) {
+    const res = await this.instance.post(`Films`, input);
+
+    return res.data;
+  }
+
+  async updateFilm(
+    id: string,
+    input: { Id: string; Title: string; Runtime: number }
+  ) {
+    const res = await this.instance.put(`Film/${id}`, input);
+
+    return res.data;
+  }
+
+  async getRooms(): Promise<Return<undefined, Room[]>> {
+    const res = await this.instance.get("Rooms");
+
+    return res.data;
+  }
+
+  async createRoom(input: { Number: number; Seats: number }) {
+    const res = await this.instance.post(`Rooms`, input);
+
+    return res.data;
   }
 }

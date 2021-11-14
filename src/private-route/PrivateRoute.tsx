@@ -13,6 +13,8 @@ export function PrivateRoute({
 }) {
   const authentication = useAuthentication();
 
+  console.log(authentication);
+
   return (
     <Route
       {...rest}

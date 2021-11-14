@@ -148,7 +148,7 @@ export function Showtime() {
       </Modal>
 
       {showtime
-        ? prepareData(showtime.room.seets!, showtime?.bookings!).map((data) => {
+        ? prepareData(showtime.room.seats!, showtime?.bookings!).map((data) => {
             return <Picker id={data.id} available={data.available} />;
           })
         : null}

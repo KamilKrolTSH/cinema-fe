@@ -11,6 +11,9 @@ export function Home() {
       <Link className="link" to="/register">
         <Button variant="contained">Register</Button>
       </Link>
+      <Link className="link" to="/register-admin">
+        <Button variant="contained">Register Admin</Button>
+      </Link>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 export interface Room {
   id: number;
   number: number;
-  seets: number;
+  seats: number;
 }

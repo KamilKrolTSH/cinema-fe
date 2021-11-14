@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { CinemaClient } from "../clients/cinema.client";
 import { Showtime } from "../types/showtime";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const cinemaClient = new CinemaClient();
 
@@ -26,6 +27,12 @@ export function Dashboard() {
 
   return (
     <div className="Dashboard">
+      <Link className="link" to="/films">
+        <Button variant="contained">Films</Button>
+      </Link>
+      <Link className="link" to="/rooms">
+        <Button variant="contained">Rooms</Button>
+      </Link>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
