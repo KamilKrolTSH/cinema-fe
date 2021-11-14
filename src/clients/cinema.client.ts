@@ -187,4 +187,10 @@ export class CinemaClient {
 
     return res.data;
   }
+
+  async addShowtime(input: { Date: Date; FilmId: number; RoomId: number }) {
+    const res = await this.instance.post(`Showtimes`, input);
+
+    return res.data;
+  }
 }
